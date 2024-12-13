@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
+import {auth} from '../../../config/firebase'
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const { Title } = Typography;
 const initialState = {
   firstname: "",
   lastname: "",
-  email:'',
+  email: "",
   password: "",
   confirmpassword: "",
 };
@@ -21,7 +23,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let { firstname, lastname,email, password, confirmpassword } = state;
+    let { firstname, lastname, email, password, confirmpassword } = state;
 
     const userData = {
       uid: "",
@@ -32,7 +34,22 @@ const Register = () => {
       confirmpassword,
     };
     setIsProcessing(true);
-    createDocument(userData);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        createDocument({...userData, uid:user.uid});
+      
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsProcessing(false);
+        
+        // ..
+      });
+
+    
   };
   const createDocument = (userData) => {
     console.log("userData", userData);
@@ -111,12 +128,16 @@ const Register = () => {
             </Col>
             {/* Button */}
             <Col span={24}>
-            <Button 
-            type="primary" block
-            size="large" 
-            htmlType="submit" 
-            loading={isProcessing} 
-            onClick={handleSubmit}>Register</Button>
+              <Button
+                type="primary"
+                block
+                size="large"
+                htmlType="submit"
+                loading={isProcessing}
+                onClick={handleSubmit}
+              >
+                Register
+              </Button>
             </Col>
           </Row>
         </Form>
