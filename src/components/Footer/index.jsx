@@ -1,8 +1,10 @@
 import React from 'react'
-
+import Copyright from './Copyright'
 const Footer = () => {
   return (
-    <div>Footer</div>
+    <>
+    <Copyright/>
+    </>
   )
 }
 

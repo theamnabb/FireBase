@@ -3,7 +3,7 @@ import { Col, Row, Typography } from 'antd'
 const {Paragraph} = Typography
 
 const Copyright = () => {
-    const year = new Date().
+    const year = new Date().getFullYear()
   return (
     <footer className='py-2 bg-primary'>
         <div className="container">
