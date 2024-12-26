@@ -133,7 +133,6 @@ const Register = () => {
                 block
                 size="large"
                 htmlType="submit"
-                
                 loading={isProcessing}
                 onClick={handleSubmit}
               >
